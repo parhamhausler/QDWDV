@@ -25,13 +25,9 @@ function initialize() {
   setMarkers(map, ap);
 }
 
-/**
- * Data for the markers consisting of a name, a LatLng and a zIndex for
- * the order in which these markers should display on top of each
- * other.
- */
 
 <?php
+//gets data for markers from database
 $server = "localhost";
 $username = "govhack";
 $password = "govhack";
@@ -58,37 +54,47 @@ if ($data->num_rows > 0) {
         $i++;
     }
 }
+
+//create click listners
+
 echo "];";
 $conn->close();
 ?>
 
 
+function getstats(name)
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    	//document.getElementById("sidepanel").innerHTML=xmlhttp.responseText;
+	alert(xmlhttp.responseText);
+    }
+  }
+xmlhttp.open("GET","stats.php?apname="+name,true);
+xmlhttp.send();
+}
+
+
 function setMarkers(map, locations) {
-  // Add markers to the map
-
-  // Marker sizes are expressed as a Size of X,Y
-  // where the origin of the image (0,0) is located
-  // in the top left of the image.
-
-  // Origins, anchor positions and coordinates of the marker
-  // increase in the X direction to the right and in
-  // the Y direction down.
   var image = {
     url: 'wifi.png',
-    // This marker is 20 pixels wide by 32 pixels tall.
     size: new google.maps.Size(32, 32),
-    // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
-    // The anchor for this image is the base of the flagpole at 0,32.
     anchor: new google.maps.Point(0,0)
   };
-  // Shapes define the clickable region of the icon.
-  // The type defines an HTML &lt;area&gt; element 'poly' which
-  // traces out a polygon as a series of X,Y points. The final
-  // coordinate closes the poly by connecting to the first
-  // coordinate.
   var shape = {
-      coords: [1, 1, 1, 20, 18, 20, 18 , 1],
+      coords: [0, 0, 32, 0, 32,32, 0, 32],
       type: 'poly'
   };
   for (var i = 0; i < locations.length; i++) {
@@ -102,9 +108,16 @@ function setMarkers(map, locations) {
         title: ap[0],
         zIndex: ap[3]
     });
+    google.maps.event.addListener(marker, 'click', function() {
+    if (map.getZoom() <17) {
+    	map.setZoom(17);
+    }
+    map.setCenter(this.getPosition());
+    getstats(this.getTitle());
+    //alert(this.getTitle());
+    });
   }
 }
-
 google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
