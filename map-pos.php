@@ -4,13 +4,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Wifi Map</title>
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
+    <link rel="stylesheet" text="test/css" href="styles.css">
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
 
@@ -78,20 +72,20 @@ xmlhttp.onreadystatechange=function()
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
     	//document.getElementById("sidepanel").innerHTML=xmlhttp.responseText;
-	alert(xmlhttp.responseText);
+	document.getElementById("side-panel").innerHTML = xmlhttp.responseText;
+	//alert(xmlhttp.responseText);
     }
   }
 xmlhttp.open("GET","stats.php?apname="+name,true);
 xmlhttp.send();
 }
 
-
 function setMarkers(map, locations) {
   var image = {
     url: 'wifi.png',
     size: new google.maps.Size(32, 32),
     origin: new google.maps.Point(0,0),
-    anchor: new google.maps.Point(0,0)
+    anchor: new google.maps.Point(16,16)
   };
   var shape = {
       coords: [0, 0, 32, 0, 32,32, 0, 32],
@@ -108,6 +102,17 @@ function setMarkers(map, locations) {
         title: ap[0],
         zIndex: ap[3]
     });
+      var CircleOptions = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: myLatLng,
+      radius: 50
+      }; 
+      var Circle = new google.maps.Circle(CircleOptions); 
     google.maps.event.addListener(marker, 'click', function() {
     if (map.getZoom() <17) {
     	map.setZoom(17);
@@ -124,5 +129,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
   </head>
   <body>
     <div id="map-canvas"></div>
+    <div id="side-panel"></div>
   </body>
 </html>

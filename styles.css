@@ -1,0 +1,13 @@
+#map-canvas{
+	width:80%;
+	height: 100%;
+	position:absolute;
+	left:0;
+}
+#side-panel{
+	padding-left:10px;
+	width:20%;
+	height:100%;
+	position:absolute;
+	left:80%;
+}

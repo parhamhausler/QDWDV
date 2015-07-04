@@ -1,7 +1,7 @@
 <?php
 
-$accesspoint = $_GET['apname'];
-echo $accesspoint;
+$name = $_GET['apname'];
+echo $name;
 
 //gets data for markers from database
 $server = "localhost";
@@ -15,12 +15,20 @@ if ($conn->connect_error) {
 }
 //connected to db
 
-$unique = "select count(distinct macaddress) from wifi ";  //number of unique visitors
+$unique = "select count(distinct macaddress) from wifi where name = \"" . $name . "\"";  //number of unique visitors
+$uniqueid = "select count(distinct visitorid) from wifi where name = \"" . $name . "\"";  //number of unique visitors
 $average = ""; //average time spent
 $iphones = ""; //number of iphones
 
-$sql = "select locationid, name from wifi where name=". $accesspoint ." \"\"";
-$data = $conn->query($sql);
+//$sql = "select locationid, name from wifi where name=" . $accesspoint . "\"";
+
+$data = $conn->query($unique);
+echo "<br>Unique Visitors: " . $data->fetch_assoc()['count(distinct macaddress)'];
+
+$data = $conn->query($uniqueid);
+echo "<br>Unique Visitors id: " . $data->fetch_assoc()['count(distinct visitorid)'];
+
+/*
 if ($data->num_rows > 0) {
     // output data of each row
     $i = 1;
@@ -32,5 +40,6 @@ if ($data->num_rows > 0) {
         $i++;
     }
 }
+*/
 $conn->close();
 ?>
