@@ -33,7 +33,7 @@ $androidnum = $data->fetch_assoc()['count(distinct macaddress)'];
 echo "<br>Number of Android Devices: " . $androidnum;
 echo "<br>Number of Other Devices: " . ($uniquenum - ($androidnum + $iphonenum));
 $data = $conn->query($avgaccesscount);
-echo "<br>Average Accesscount: " . $data->fetch_assoc()['avg(accesscount)'];
+echo "<br>Average Accesscount: " . round($data->fetch_assoc()['avg(accesscount)'],2);
 
 
 $conn->close();

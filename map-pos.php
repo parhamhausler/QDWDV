@@ -49,7 +49,6 @@ if ($data->num_rows > 0) {
     }
 }
 
-//create click listners
 
 echo "];";
 $conn->close();
@@ -71,9 +70,7 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-    	//document.getElementById("sidepanel").innerHTML=xmlhttp.responseText;
 	document.getElementById("side-panel").innerHTML = xmlhttp.responseText;
-	//alert(xmlhttp.responseText);
     }
   }
 xmlhttp.open("GET","stats.php?apname="+name,true);
@@ -88,7 +85,7 @@ function setMarkers(map, locations) {
     anchor: new google.maps.Point(16,16)
   };
   var shape = {
-      coords: [0, 0, 32, 0, 32,32, 0, 32],
+      coords: [0, 0, 128, 0, 128,128, 0, 128],
       type: 'poly'
   };
   for (var i = 0; i < locations.length; i++) {
@@ -107,7 +104,7 @@ function setMarkers(map, locations) {
       strokeOpacity: 0.8,
       strokeWeight: 2,
       fillColor: '#FF0000',
-      fillOpacity: 0.35,
+      fillOpacity: 0.15,
       map: map,
       center: myLatLng,
       radius: 50
@@ -119,7 +116,6 @@ function setMarkers(map, locations) {
     }
     map.setCenter(this.getPosition());
     getstats(this.getTitle());
-    //alert(this.getTitle());
     });
   }
 }
