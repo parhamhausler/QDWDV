@@ -1,7 +1,7 @@
 <?php
 
 $name = $_GET['apname'];
-echo $name;
+echo "<b>".$name."</b><br>";
 
 //gets data for markers from database
 $server = "localhost";
@@ -16,30 +16,25 @@ if ($conn->connect_error) {
 //connected to db
 
 $unique = "select count(distinct macaddress) from wifi where name = \"" . $name . "\"";  //number of unique visitors
-$uniqueid = "select count(distinct visitorid) from wifi where name = \"" . $name . "\"";  //number of unique visitors
 $average = ""; //average time spent
-$iphones = ""; //number of iphones
+$iphone = "select count(distinct macaddress) from wifi where browseragent like \"%iPhone%\" and name = \"" . $name ."\""; //number of iPhones
+$android = "select count(distinct macaddress) from wifi where browseragent like \"%Android%\" and name = \"" . $name . "\""; //number of Android 
+$avgaccesscount = "select avg(accesscount) from wifi where name = \"" . $name . "\"";
 
-//$sql = "select locationid, name from wifi where name=" . $accesspoint . "\"";
 
 $data = $conn->query($unique);
-echo "<br>Unique Visitors: " . $data->fetch_assoc()['count(distinct macaddress)'];
+$uniquenum = $data->fetch_assoc()['count(distinct macaddress)'];
+echo "<br>Unique Visitors: " . $uniquenum;
+$data = $conn->query($iphone);
+$iphonenum = $data->fetch_assoc()['count(distinct macaddress)'];
+echo "<br>Number of iPhones: " . $iphonenum;
+$data = $conn->query($android);
+$androidnum = $data->fetch_assoc()['count(distinct macaddress)'];
+echo "<br>Number of Android Devices: " . $androidnum;
+echo "<br>Number of Other Devices: " . ($uniquenum - ($androidnum + $iphonenum));
+$data = $conn->query($avgaccesscount);
+echo "<br>Average Accesscount: " . $data->fetch_assoc()['avg(accesscount)'];
 
-$data = $conn->query($uniqueid);
-echo "<br>Unique Visitors id: " . $data->fetch_assoc()['count(distinct visitorid)'];
 
-/*
-if ($data->num_rows > 0) {
-    // output data of each row
-    $i = 1;
-    while($row = $data->fetch_assoc()) {
-        echo "['" . $row["name"]. "', " . $row["latitude"]. "," . $row["longitude"]. ",". $i . "]";
-        if ($i != $data->num_rows) {
-                echo ",";
-        }
-        $i++;
-    }
-}
-*/
 $conn->close();
 ?>
