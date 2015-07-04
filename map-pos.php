@@ -121,9 +121,16 @@ function setMarkers(map, locations) {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
+function setinitial() {
+	getstats("main");
+	initialize();
+}
+	
+
+
     </script>
   </head>
-  <body>
+  <body onload="setinitial();">
     <div id="map-canvas"></div>
     <div id="side-panel"></div>
   </body>
