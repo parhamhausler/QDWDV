@@ -117,6 +117,7 @@ function setMarkers(map, locations) {
   }
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+<<<<<<< HEAD
 //var maph = initialize();
 function setinitial() {
 	getstats("main");
@@ -131,6 +132,16 @@ function goto(lat, lng) {
 		map.setZoom(19);
 	}
 }
+=======
+
+function setinitial() {
+	getstats("main");
+	initialize();
+}
+	
+
+
+>>>>>>> origin/master
     </script>
   </head>
   <body onload="setinitial();">

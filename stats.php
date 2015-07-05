@@ -17,6 +17,7 @@ if ($conn->connect_error) {
 if ($name === "main") {
 //this is the default stuff
 
+<<<<<<< HEAD
 echo "<b>Welcome to QDWDV</b><br><br>Click on an access point to see more detailed statistics.<br>";
 echo "<br><b>Top 10 access points, by unique visitors.</b><br>";
 //gets unique macs per access point
@@ -30,6 +31,9 @@ if ($data->num_rows > 0) {
         echo "<br><a href=\"#\" onclick=goto(" . $row['latitude'] . "," . $row['longitude'] . ");>"  . $row["name"]. "</a> " . $row["count(*)"];
     }
 }
+=======
+echo "<b>Welcome to QDWDV</b><br><br>Click on an access point to see more detailed statistics.";
+>>>>>>> origin/master
 
 
 } else {
