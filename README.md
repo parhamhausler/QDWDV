@@ -1,2 +1,2 @@
 # QDWDV
-Quick and Dirty Wifi Data Visualisation
+Quick and Dirty Wifi Data Viewer
