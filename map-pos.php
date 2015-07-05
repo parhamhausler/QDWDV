@@ -71,7 +71,9 @@ xmlhttp.onreadystatechange=function()
     	//document.getElementById("sidepanel").innerHTML=xmlhttp.responseText;
 	document.getElementById("side-panel").innerHTML = "Loading";
 	document.getElementById("side-panel").innerHTML = xmlhttp.responseText
-	getphonestats(name);
+	if (name != "main") {
+		getphonestats(name);
+	}
 	//alert(xmlhttp.responseText);
     }
   }
@@ -178,14 +180,16 @@ function setMarkers(map, locations) {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-//var maph = initialize();
 function setinitial() {
 	getstats("main");
 	map.setZoom(11);
         latlng = new google.maps.LatLng(-38.1673076,144.4993399)
 	map.setCenter(latlng); //Set center to geelong
+	var canvas = document.getElementById("theCanvas");
+	var context = canvas.getContext("2d");
+	context.clearRect(0, 0, canvas.width, canvas.height);
 }
-function goto(lat, lng) {
+function goto(lat, lng, name) {
 	latlng = new google.maps.LatLng(lat,lng)
 	map.setCenter(latlng);
 	if (map.getZoom() < 19) {
@@ -195,11 +199,11 @@ function goto(lat, lng) {
 
     </script>
   </head>
-  <body>
+  <body onload="setinitial();">
     <div id="map-canvas"></div>
     <div id="side-panel"></div>
     <div id="side-panel-canvas">
-      <canvas id="theCanvas">Your browser doesn't support canvas, sorry!</canvas>
+    <canvas id="theCanvas">Your browser doesn't support canvas, sorry!</canvas>
     <div>
   </body>
 </html>
