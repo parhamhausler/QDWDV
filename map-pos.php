@@ -13,10 +13,9 @@ function initialize() {
     zoom: 11,
     center: new google.maps.LatLng(-38.1673076,144.4993399) //Set center to geelong
   }
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-                                mapOptions);
-
+  map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
   setMarkers(map, ap);
+  return map;
 }
 
 
@@ -33,7 +32,6 @@ if ($conn->connect_error) {
 }
 //connected to db
 
-
 $sql = "select distinct locationid, latitude, longitude, name from wifi where longitude != \"\"";
 $data = $conn->query($sql);
 echo "var ap = [";
@@ -49,12 +47,11 @@ if ($data->num_rows > 0) {
     }
 }
 
-//create click listners
 
+//create click listners
 echo "];";
 $conn->close();
 ?>
-
 
 function getstats(name)
 {
@@ -173,12 +170,28 @@ function setMarkers(map, locations) {
     	map.setZoom(17);
     }
     map.setCenter(this.getPosition());
+    document.getElementById("side-panel").innerHTML = "Loading";
     getstats(this.getTitle());
     //alert(this.getTitle());
     });
   }
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+
+//var maph = initialize();
+function setinitial() {
+	getstats("main");
+	map.setZoom(11);
+        latlng = new google.maps.LatLng(-38.1673076,144.4993399)
+	map.setCenter(latlng); //Set center to geelong
+}
+function goto(lat, lng) {
+	latlng = new google.maps.LatLng(lat,lng)
+	map.setCenter(latlng);
+	if (map.getZoom() < 19) {
+		map.setZoom(19);
+	}
+}
 
     </script>
   </head>
