@@ -31,6 +31,7 @@ if ($data->num_rows > 0) {
     }
 }
 
+echo "<br><br><a href=\"#\" onclick=setinitial();>Back</a>";
 
 } else {
 //this is the ap specific stuff
