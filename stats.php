@@ -27,7 +27,7 @@ if ($data->num_rows > 0) {
     // output top 10 rows 
     for($x=0;$x<10;$x++) {
     	$row = $data->fetch_assoc();
-        echo "<br><a href=\"#\" onclick=goto(" . $row['latitude'] . "," . $row['longitude'] . ");>"  . $row["name"]. "</a> " . $row["count(*)"];
+        echo "<br><a href=\"#\" onclick=goto(" . $row['latitude'] . "," . $row['longitude'] . ");>" . $row["name"]. "</a> " . $row["count(*)"];
     }
 }
 
@@ -41,6 +41,7 @@ $average = ""; //average time spent
 $iphone = "select count(distinct macaddress) from wifi where browseragent like \"%iPhone%\" and name = \"" . $name ."\""; //number of iPhones
 $android = "select count(distinct macaddress) from wifi where browseragent like \"%Android%\" and name = \"" . $name . "\""; //number of Android 
 $avgaccesscount = "select avg(accesscount) from wifi where name = \"" . $name . "\"";
+$avgaccesstime = "select avg(lastaccess) from wifi where name =\"".$name."\"";
 
 //start querying database
 $data = $conn->query($unique);
@@ -54,11 +55,11 @@ $androidnum = $data->fetch_assoc()['count(distinct macaddress)'];
 echo "<br>Number of Android Devices: " . $androidnum;
 echo "<br>Number of Other Devices: " . ($uniquenum - ($androidnum + $iphonenum));
 $data = $conn->query($avgaccesscount);
-echo "<br>Average Accesscount: " . round($data->fetch_assoc()['avg(accesscount)'],2);
-
+echo "<br>Average accesses per visitor: " . round($data->fetch_assoc()['avg(accesscount)'],2);
+$data = $conn->query($avgaccesstime);
+echo "<br>Average access time: " . round($data->fetch_assoc()['avg(lastaccess)'],2);
 echo "<br><br><a href=\"#\" onclick=setinitial();>Back</a>";
 }
-
 
 $conn->close();
 ?>
