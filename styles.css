@@ -10,4 +10,17 @@
 	height:100%;
 	position:absolute;
 	left:80%;
+	font-family: Verdana, Georgia, Serif;
+	font-size: 12px;
 }
+#side-panel-canvas{
+	padding-left:0;
+	width:20%;
+	height:50%;
+	position:absolute;
+	left:80%;
+	bottom:0;
+	font-family: Verdana, Georgia, Serif;
+	font-size: 12px;
+}
+

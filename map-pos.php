@@ -49,6 +49,7 @@ if ($data->num_rows > 0) {
     }
 }
 
+//create click listners
 
 echo "];";
 $conn->close();
@@ -70,11 +71,68 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-	document.getElementById("side-panel").innerHTML = xmlhttp.responseText;
+    	//document.getElementById("sidepanel").innerHTML=xmlhttp.responseText;
+	document.getElementById("side-panel").innerHTML = "Loading";
+	document.getElementById("side-panel").innerHTML = xmlhttp.responseText
+	getphonestats(name);
+	//alert(xmlhttp.responseText);
     }
   }
 xmlhttp.open("GET","stats.php?apname="+name,true);
 xmlhttp.send();
+}
+
+function getphonestats(name){
+  var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+      var vars = xmlhttp.responseText.split(',');
+       DrawPhoneStats(vars[0],vars[1],vars[2]);
+    }
+  }
+xmlhttp.open("GET","phonestats.php?apname="+name,true);
+xmlhttp.send();
+}
+
+function DrawPhoneStats(iphone, android, other){
+  var BarHeight = 25;
+  var HeightOffset = 15;
+  var canvas = document.getElementById("theCanvas");
+  var ctx = canvas.getContext("2d");
+  var iphoneInt = parseInt(iphone);
+  var androidInt = parseInt(android);
+  var otherInt = parseInt(other);
+  var max = iphoneInt;
+  if(androidInt > max){
+    max = androidInt;
+  }
+  if(otherInt > max){
+    max = otherInt;
+  }
+  var mulitplier = canvas.width / max;
+  ctx.fillStyle = "#FF0000";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0,HeightOffset,iphoneInt * mulitplier,BarHeight);
+  ctx.fillStyle = "#00FF00";
+  ctx.fillRect(0,HeightOffset+BarHeight,androidInt * mulitplier,BarHeight);
+  ctx.fillStyle = "#0000FF";
+  ctx.fillRect(0,HeightOffset+ 2*BarHeight,otherInt * mulitplier,BarHeight);
+  ctx.fillStyle = "#000000";
+  ctx.font = "12px Arial";
+  ctx.fillText("Popularity of Operating System", 0,10);
+  ctx.fillText("iPhone",0,BarHeight/2 + 10 + HeightOffset); 
+  ctx.fillText("Android",0,BarHeight/2 + BarHeight + 10 + HeightOffset);
+  ctx.fillText("Other",0,BarHeight/2 + 2* BarHeight + 10 + HeightOffset);
 }
 
 function setMarkers(map, locations) {
@@ -85,7 +143,7 @@ function setMarkers(map, locations) {
     anchor: new google.maps.Point(16,16)
   };
   var shape = {
-      coords: [0, 0, 128, 0, 128,128, 0, 128],
+      coords: [0, 0, 32, 0, 32,32, 0, 32],
       type: 'poly'
   };
   for (var i = 0; i < locations.length; i++) {
@@ -104,7 +162,7 @@ function setMarkers(map, locations) {
       strokeOpacity: 0.8,
       strokeWeight: 2,
       fillColor: '#FF0000',
-      fillOpacity: 0.15,
+      fillOpacity: 0.35,
       map: map,
       center: myLatLng,
       radius: 50
@@ -116,22 +174,19 @@ function setMarkers(map, locations) {
     }
     map.setCenter(this.getPosition());
     getstats(this.getTitle());
+    //alert(this.getTitle());
     });
   }
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function setinitial() {
-	getstats("main");
-	initialize();
-}
-	
-
-
     </script>
   </head>
-  <body onload="setinitial();">
+  <body>
     <div id="map-canvas"></div>
     <div id="side-panel"></div>
+    <div id="side-panel-canvas">
+      <canvas id="theCanvas">Your browser doesn't support canvas, sorry!</canvas>
+    <div>
   </body>
 </html>
