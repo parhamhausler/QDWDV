@@ -13,9 +13,10 @@ function initialize() {
     zoom: 11,
     center: new google.maps.LatLng(-38.1673076,144.4993399) //Set center to geelong
   }
-  map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+                                mapOptions);
+
   setMarkers(map, ap);
-  return map;
 }
 
 
@@ -32,6 +33,7 @@ if ($conn->connect_error) {
 }
 //connected to db
 
+
 $sql = "select distinct locationid, latitude, longitude, name from wifi where longitude != \"\"";
 $data = $conn->query($sql);
 echo "var ap = [";
@@ -47,9 +49,11 @@ if ($data->num_rows > 0) {
     }
 }
 
+
 echo "];";
 $conn->close();
 ?>
+
 
 function getstats(name)
 {
@@ -111,12 +115,12 @@ function setMarkers(map, locations) {
     	map.setZoom(17);
     }
     map.setCenter(this.getPosition());
-    document.getElementById("side-panel").innerHTML = "Loading";
     getstats(this.getTitle());
     });
   }
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+<<<<<<< HEAD
 <<<<<<< HEAD
 //var maph = initialize();
 function setinitial() {
@@ -142,9 +146,12 @@ function setinitial() {
 
 
 >>>>>>> origin/master
+=======
+
+>>>>>>> parent of 017b3a7... More Features
     </script>
   </head>
-  <body onload="setinitial();">
+  <body>
     <div id="map-canvas"></div>
     <div id="side-panel"></div>
   </body>
