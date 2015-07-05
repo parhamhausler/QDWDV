@@ -189,7 +189,7 @@ function setinitial() {
 	var context = canvas.getContext("2d");
 	context.clearRect(0, 0, canvas.width, canvas.height);
 }
-function goto(lat, lng, name) {
+function goto(lat, lng) {
 	latlng = new google.maps.LatLng(lat,lng)
 	map.setCenter(latlng);
 	if (map.getZoom() < 19) {
