@@ -17,8 +17,8 @@ if ($conn->connect_error) {
 if ($name === "main") {
 //this is the default stuff
 
-echo "<b>Welcome to QDWDV</b><br><br>Click on an access point to see more detailed statistics.<br>";
-echo "<br><b>Top 10 access points, by unique visitors.</b><br>";
+echo "<b>Welcome to QDWDV</b><br><br>Click an access point on the map for more detailed statistics.<br>";
+echo "<br><b>Top 10 access points, by unique visitors.</b><br><i>Click a link to move view to location.</i><br>";
 //gets unique macs per access point
 //$query = "select latitude, longitude, name, count(*) from (select distinct name, macAddress from wifi where macAddress IS NOT NULL AND macAddress <> '') a group by name order by count(*) desc;";
 $query = "select name, latitude, longitude, count(*) from (select distinct name, macAddress, latitude, longitude from wifi where macAddress IS NOT NULL AND macAddress <> '' AND longitude <> '') a group by name order by count(*) desc";
