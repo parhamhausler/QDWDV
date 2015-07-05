@@ -71,7 +71,9 @@ xmlhttp.onreadystatechange=function()
     	//document.getElementById("sidepanel").innerHTML=xmlhttp.responseText;
 	document.getElementById("side-panel").innerHTML = "Loading";
 	document.getElementById("side-panel").innerHTML = xmlhttp.responseText
-	getphonestats(name);
+	if (name != "main") {
+		getphonestats(name);
+	}
 	//alert(xmlhttp.responseText);
     }
   }
@@ -178,7 +180,6 @@ function setMarkers(map, locations) {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-//var maph = initialize();
 function setinitial() {
 	getstats("main");
 	map.setZoom(11);
@@ -195,7 +196,7 @@ function goto(lat, lng) {
 
     </script>
   </head>
-  <body>
+  <body onload="setinitial();">
     <div id="map-canvas"></div>
     <div id="side-panel"></div>
     <div id="side-panel-canvas">
